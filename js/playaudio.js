@@ -35,7 +35,6 @@ const clickPlay = event =>
     console.log(`Start playing ${button.id}`);
 
     // find the right song, take its audio part and play it
-    songsToPlay.find(s => s.Key === button.id).Audio.currentTime = 185;
     songsToPlay.find(s => s.Key === button.id).Audio.play();
 
     // add css properties of .playing class to parent <li> of 'play' button
