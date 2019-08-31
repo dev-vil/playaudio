@@ -8,6 +8,7 @@ const stopIcon = 'fa-stop';
 const volumeUpIcon = 'fa-volume-up';
 const volumeDownIcon = 'fa-volume-down';
 const playingClass = 'playing';
+const sliderClass = 'slider';
 
 // get filename from path$
 const getFilenameFromPath = (path, includeExtension = false) =>
@@ -103,6 +104,7 @@ const clickVolumeUp = event =>
     // find the right song, take its audio part, check the volume
     // and increase it if possible
     let audio = songsToPlay.find(s => s.Key === button.id).Audio;
+    let volumeSlider = volumeSliders.find(v => v.id === button.id);
 
     if(audio.volume + 0.1 <= 1)
     {
@@ -112,6 +114,8 @@ const clickVolumeUp = event =>
     {
         audio.volume = 1;
     }
+
+    volumeSlider.value = audio.volume * 100;
 }
 
 // function to be executed when 'volume down' button is clicked
@@ -126,6 +130,7 @@ const clickVolumeDown = event =>
     // find the right song, take its audio part, check the volume
     // and decrease it if possible
     let audio = songsToPlay.find(s => s.Key === button.id).Audio;
+    let volumeSlider = volumeSliders.find(v => v.id === button.id);
 
     if(audio.volume - 0.1 >= 0)
     {
@@ -135,6 +140,8 @@ const clickVolumeDown = event =>
     {
         audio.volume = 0;
     }
+
+    volumeSlider.value = audio.volume * 100;
 }
 
 // function to be execution when song is playing
@@ -183,11 +190,12 @@ const songHasLoaded = event =>
     updatePlayPosition(event);
 }
 
-// get all 'play', 'volume up' and 'volume down' buttons from html document
-// and put them into arrays
+// get all 'play', 'volume up' and 'volume down' buttons and volume sliders
+// from html document and put them into arrays
 let playButtons = Array.from(document.getElementsByClassName(playIcon));
 let volumeUpButtons = Array.from(document.getElementsByClassName(volumeUpIcon));
 let volumeDownButtons = Array.from(document.getElementsByClassName(volumeDownIcon));
+let volumeSliders = Array.from(document.getElementsByClassName(sliderClass));
 
 // prepare array for songs data
 let songsToPlay = [];
@@ -201,6 +209,9 @@ playButtons.forEach(button =>
         Key: button.id,
         Audio: new Audio(`./audio/${button.id}.mp3`)
     };
+
+    // set song volume to 50%
+    song.Audio.volume = 0.5;
 
     // make song follow its play position
     song.Audio.addEventListener('timeupdate', updatePlayPosition);
@@ -226,6 +237,21 @@ volumeDownButtons.forEach(button =>
 {
     // make button react to 'volume down' when clicked
     button.addEventListener('click', clickVolumeDown);
+});
+
+// for each volume slider
+volumeSliders.forEach(slider =>
+{
+    slider.min = 0;
+    slider.max = 100;
+    slider.value = songsToPlay.find(s => s.Key === slider.id).Audio.volume * 100;
+
+    slider.addEventListener('input', event => 
+    {
+        let slider = volumeSliders.find(v => v.id === event.target.id);
+
+        slider.value = songsToPlay.find(s => s.Key === slider.id).Audio.volume * 100;
+    });
 });
 
 // log stop of loading playaudio.js + time elapsed
