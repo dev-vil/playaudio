@@ -144,7 +144,7 @@ const clickVolumeDown = event =>
     volumeSlider.value = audio.volume * 100;
 }
 
-// function to be execution when song is playing
+// function to be executed when song is playing
 const updatePlayPosition = event =>
 {
     // shortcuts to song object and its key
