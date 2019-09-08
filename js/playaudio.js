@@ -1,5 +1,5 @@
 // log start of loading playaudio.js
-let start = new Date();
+start = new Date();  // no 'let', variable already defined in generatesongs.js
 console.log(`Start loading of playaudio.js at ${start.toLocaleTimeString()}.`);
 
 // constant strings
@@ -255,6 +255,6 @@ volumeSliders.forEach(slider =>
 });
 
 // log stop of loading playaudio.js + time elapsed
-let stop = new Date();
+stop = new Date(); // no 'let', variable already defined in generatesongs.js
 console.log(`Stop loading of playaudio.js at ${stop.toLocaleTimeString()}.`);
 console.log(`${stop.getMilliseconds() - start.getMilliseconds()} milliseconds elapsed.`);
