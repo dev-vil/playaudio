@@ -162,7 +162,7 @@ const updatePlayPosition = event =>
     {
         currentMinutes = Math.floor(currentSeconds / 60);
         currentSeconds -= (currentMinutes * 60);
-    }1
+    }
 
     if(totalSeconds >= 60)
     {
